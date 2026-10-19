@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IntelliChef — Prepare smarter. Waste less.</title>
+  <meta name="description" content="AI-powered demand forecasting and food-waste reduction platform for restaurants." />
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍🍳</text></svg>">
+</head>
+<body class="bg-slate-50 text-slate-900 flex h-screen overflow-hidden">
+
+  <!-- Desktop Sidebar -->
+  <aside id="app-sidebar" class="w-64 bg-white border-r border-slate-200 flex flex-col justify-between shrink-0 no-print z-20">
+    <div>
+      <!-- Brand Logo & Positioning -->
+      <div class="p-5 border-b border-slate-100 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-black text-xl shadow-sm">
+          👨‍🍳
+        </div>
+        <div>
+          <div class="text-lg font-black text-slate-900 tracking-tight leading-none">
+            IntelliChef
+          </div>
+          <div class="text-[10px] font-semibold text-emerald-700 tracking-wide mt-1">
+            Prepare smarter. Waste less.
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Navigation Links -->
+      <nav class="p-3 space-y-1 overflow-y-auto max-h-[calc(100vh-220px)]">
+        <div class="px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">Operations</div>
+        
+        <a href="#dashboard" data-route="dashboard" class="nav-link flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <span class="text-base">📊</span>
+          <span>Executive Overview</span>
+        </a>
+
+        <a href="#recommendations" data-route="recommendations" class="nav-link flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <span class="text-base">🍳</span>
+          <span>Daily Prep Recs</span>
+        </a>
+
+        <a href="#prep_sheet" data-route="prep_sheet" class="nav-link flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <span class="text-base">📋</span>
+          <span>Kitchen Prep Sheet</span>
+        </a>
+
+        <div class="px-3 pt-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Demand & Insights</div>
+
+        <a href="#forecasting" data-route="forecasting" class="nav-link flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <span class="text-base">📈</span>
+          <span>Demand & Simulator</span>
+        </a>
+
+        <a href="#waste" data-route="waste" class="nav-link flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <span class="text-base">📉</span>
+          <span>Waste Reduction</span>
+        </a>
+
+        <a href="#events" data-route="events" class="nav-link flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <span class="text-base">🗓️</span>
+          <span>Festivals & Events</span>
+        </a>
+
+        <div class="px-3 pt-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Setup</div>
+
+        <a href="#upload" data-route="upload" class="nav-link flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <span class="text-base">📥</span>
+          <span>Import Sales CSV</span>
+        </a>
+
+        <a href="#settings" data-route="settings" class="nav-link flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-semibold text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition">
+          <span class="text-base">⚙️</span>
+          <span>Settings & Strategy</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Bottom Mission Box -->
+    <div class="p-4 m-3 bg-slate-50 border border-slate-200/80 rounded-xl">
+      <div class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Core Mission</div>
+      <p class="text-xs text-slate-700 font-medium mt-1 leading-snug">
+        Minimize food waste while maintaining food availability.
+      </p>
+      <div class="mt-2.5 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px] text-slate-400">
+        <span class="text-emerald-600 font-bold">● System Online</span>
+        <a href="#models" class="text-slate-400 hover:text-slate-700 transition flex items-center gap-1 font-mono text-[9px]" title="Internal Diagnostics for Engineers">
+          <span>🛠️</span> <span>Dev Diagnostics</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Layout -->
+  <div class="flex-1 flex flex-col h-screen overflow-hidden">
+    
+    <!-- Top Global Header -->
+    <header class="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0 no-print z-10">
+      
+      <!-- Restaurant Tenant Switcher -->
+      <div class="flex items-center gap-3">
+        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Restaurant:</label>
+        <div class="relative">
+          <select 
+            id="tenantSelect" 
+            onchange="window.handleTenantChange(this.value)"
+            class="text-xs font-bold text-slate-800 bg-slate-50 border border-slate-200 rounded-lg py-1.5 px-3 pr-8 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
+          >
+            <option value="demo-restaurant-001">The Saffron & Olive Bistro (Demo)</option>
+          </select>
+        </div>
+        <div id="activeRestBadge"></div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-3">
+        <button 
+          onclick="window.router.navigate('upload')" 
+          class="hidden sm:flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition"
+        >
+          <span>📥 Import CSV</span>
+        </button>
+
+        <button 
+          onclick="window.api.seedDemo().then(() => { alert('365 days of demo data seeded successfully!'); window.router.navigate('dashboard'); })"
+          class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 transition"
+          title="Reset and reload realistic 365-day restaurant sales, events, and waste data"
+        >
+          <span>🔄 Reload Demo</span>
+        </button>
+
+        <button 
+          onclick="window.router.navigate('recommendations')" 
+          class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-1.5 rounded-lg shadow-sm transition flex items-center gap-1.5"
+        >
+          <span>🍳 Daily Recs</span>
+        </button>
+      </div>
+
+    </header>
+
+    <!-- Scrollable Main View Container -->
+    <main id="main-content" class="flex-1 overflow-y-auto p-6 md:p-8">
+      <!-- Dynamic View Mounted Here -->
+    </main>
+
+  </div>
+
+  <!-- Application Component Scripts -->
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/components/dashboard.js"></script>
+  <script src="/static/js/components/recommendations.js"></script>
+  <script src="/static/js/components/prep_sheet.js"></script>
+  <script src="/static/js/components/forecasting.js"></script>
+  <script src="/static/js/components/waste.js"></script>
+  <script src="/static/js/components/models.js"></script>
+  <script src="/static/js/components/events.js"></script>
+  <script src="/static/js/components/upload.js"></script>
+  <script src="/static/js/components/settings.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
