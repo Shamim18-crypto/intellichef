@@ -75,7 +75,8 @@ SQLite database located at `data/intellichef.db` with foreign key enforcement:
 
 ### Quick Start (Single Command):
 ```bash
-cd c:\Users\quazi\Downloads\intellichef
+git clone https://github.com/Shamim18-crypto/intellichef.git
+cd intellichef
 python run.py
 ```
 This automatically initializes the database, seeds 365 days of realistic demo restaurant data if empty, starts the FastAPI Uvicorn server at `http://127.0.0.1:8000`, and opens the browser.
